@@ -1,3 +1,17 @@
+# Go Without Unused Variable Errors
+
+The Go specification disallows unused variables, resulting in any unused
+variables throwing unsilencable compile time errors.  This controversial
+decision, while well intended, can make development unnecessarily cumbersome.
+This patched version of the go compiler removes these checks, resulting in
+unused variables being ignored
+
+This compiler should only be used for development purposes, and you should
+substitute in an official release of the go compiler for any sort of
+production use.
+
+Original README.md below:
+
 # The Go Programming Language
 
 Go is an open source programming language that makes it easy to build simple,
