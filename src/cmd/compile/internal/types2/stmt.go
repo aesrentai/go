@@ -10,7 +10,8 @@ import (
 	"cmd/compile/internal/syntax"
 	"go/constant"
 	. "internal/types/errors"
-	"sort"
+	//REMOVED
+	//"sort"
 )
 
 func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body *syntax.BlockStmt, iota constant.Value) {
@@ -55,28 +56,30 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 	check.usage(sig.scope)
 }
 
+// REMOVED
 func (check *Checker) usage(scope *Scope) {
-	var unused []*Var
-	for name, elem := range scope.elems {
-		elem = resolve(name, elem)
-		if v, _ := elem.(*Var); v != nil && !v.used {
-			unused = append(unused, v)
-		}
-	}
-	sort.Slice(unused, func(i, j int) bool {
-		return cmpPos(unused[i].pos, unused[j].pos) < 0
-	})
-	for _, v := range unused {
-		check.softErrorf(v.pos, UnusedVar, "%s declared and not used", v.name)
-	}
-
-	for _, scope := range scope.children {
-		// Don't go inside function literal scopes a second time;
-		// they are handled explicitly by funcBody.
-		if !scope.isFunc {
-			check.usage(scope)
-		}
-	}
+	_ = scope
+//	var unused []*Var
+//	for name, elem := range scope.elems {
+//		elem = resolve(name, elem)
+//		if v, _ := elem.(*Var); v != nil && !v.used {
+//			unused = append(unused, v)
+//		}
+//	}
+//	sort.Slice(unused, func(i, j int) bool {
+//		return cmpPos(unused[i].pos, unused[j].pos) < 0
+//	})
+//	for _, v := range unused {
+//		check.softErrorf(v.pos, UnusedVar, "%s declared and not used", v.name)
+//	}
+//
+//	for _, scope := range scope.children {
+//		// Don't go inside function literal scopes a second time;
+//		// they are handled explicitly by funcBody.
+//		if !scope.isFunc {
+//			check.usage(scope)
+//		}
+//	}
 }
 
 // stmtContext is a bitset describing which
@@ -813,18 +816,19 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 	// (We can't use check.usage because that only looks at one scope; and
 	// we don't want to use the same variable for all scopes and change the
 	// variable type underfoot.)
-	if lhs != nil {
-		var used bool
-		for _, v := range lhsVars {
-			if v.used {
-				used = true
-			}
-			v.used = true // avoid usage error when checking entire function
-		}
-		if !used {
-			check.softErrorf(lhs, UnusedVar, "%s declared and not used", lhs.Value)
-		}
-	}
+	//REMOVED
+	//if lhs != nil {
+	//	var used bool
+	//	for _, v := range lhsVars {
+	//		if v.used {
+	//			used = true
+	//		}
+	//		v.used = true // avoid usage error when checking entire function
+	//	}
+	//	if !used {
+	//		check.softErrorf(lhs, UnusedVar, "%s declared and not used", lhs.Value)
+	//	}
+	//}
 }
 
 func (check *Checker) rangeStmt(inner stmtContext, s *syntax.ForStmt, rclause *syntax.RangeClause) {
